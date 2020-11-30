@@ -18,10 +18,10 @@ class Block
         add_action('wp_head', array(__CLASS__, 'render_head'), 10, 1);
 
         add_action('wp_enqueue_scripts', array(__CLASS__, 'enqueue_scripts'), 10, 1);
-
-        if (current_user_can('administrator') and is_null(Helper::getConfig('is_admin_account')) ) {
-            do_action('woocommerce_new_customer', get_current_user_id());  // force customer webhook for admin
-            Helper::setConfig('is_admin_account', true);
+        $user_id = get_current_user_id();
+        if (current_user_can('administrator') and !get_user_meta($user_id,   'beans_is_admin_account')) {
+            do_action('woocommerce_new_customer', $user_id);  // force customer webhook for admin
+            add_user_meta( $user_id, 'beans_is_admin_account', 'true', true );
         }
 
         add_action('wp_footer', array(__CLASS__, 'render_footer'), 10, 1);
