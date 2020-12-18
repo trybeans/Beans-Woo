@@ -231,7 +231,7 @@ class Helper {
     public static function getCurrentPage(){
         $pages = [
             wc_get_cart_url() => 'cart',
-            wc_get_checkout_url() => 'checkout',
+            wc_get_checkout_url() => 'cart',
             wc_get_page_permalink('shop') => 'product',
             wc_get_page_permalink( 'myaccount' ) => 'login',
             get_permalink(Helper::getConfig('liana_page')) => 'reward',

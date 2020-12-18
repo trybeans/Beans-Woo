@@ -21,6 +21,11 @@ class BaseError extends \Exception
 {
     public function __construct($error=array())
     {
+        if (!is_array($error)){
+            $error = array(
+                'message' => $error
+            );
+        }
         if(!isset($error['code']))
             $error['code'] = -1;
         if(!isset($error['message']))

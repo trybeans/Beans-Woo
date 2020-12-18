@@ -11,7 +11,7 @@ class Block {
 
     public static function render_button_container(){
         ?>
-        <div class="beans-arrow"></div>
+        <div class="form-row form-row-first beans-arrow"></div>
         <?php
     }
 
