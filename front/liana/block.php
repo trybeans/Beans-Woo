@@ -35,6 +35,14 @@ class Block {
         if ($fragments){
         ?>
         <script>
+            <?php if (Helper::getCart()->cart_contents_count != 0): ?>
+            window.Beans3.Liana.storage.cart = {
+                item_count: "<?php echo Helper::getCart()->cart_contents_count; ?>",
+                // to avoid the decimal numbers for the points.
+                total_price: "<?php echo Helper::getCart()->subtotal * 100; ?>", // DON'T TOUCH
+            };
+            <?php endif; ?>
+
             window.Beans3.Liana.Radix.init();
         </script>
         <?php
