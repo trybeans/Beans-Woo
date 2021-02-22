@@ -58,9 +58,7 @@ if ( ! class_exists( 'WC_Beans' ) ) :
 
         public static function init() {
             if ( ! session_id() ) {
-                session_start(
-                    array( 'read_and_close' => true,)
-                );
+                session_start();
             }
 
             AdminMain::init();

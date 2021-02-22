@@ -16,7 +16,6 @@ class Observer
 
         add_action('admin_enqueue_scripts', array(__CLASS__, 'admin_style'));
         add_action("admin_init", array(__CLASS__, "setting_options"));
-        add_filter("plugin_action_links_".BEANS_PLUGIN_FILENAME, array(__CLASS__, 'plugin_settings_links' ), 10, 1);
 
         add_action('admin_notices', array('\BeansWoo\Admin\Connector\UltimateConnector', 'admin_notice'));
         add_action('admin_init', array('\BeansWoo\Admin\Connector\UltimateConnector', 'notice_dismissed'));
@@ -83,13 +82,4 @@ class Observer
         }
     }
 
-    public static function plugin_settings_links($links) {
-        $row_meta = array(
-            'help' => '<a href="http://help.trybeans.com/" target="_blank" title="Help">Help Center</a>',
-            'support' => '<a href="mailto:hello@trybeans.com" title="Support">Contact Support</a>',
-            'settings' => '<a href='.BEANS_WOO_MENU_LINK.'>Settings</a>'
-        );
-
-        return array_merge($links, $row_meta);
-    }
 }

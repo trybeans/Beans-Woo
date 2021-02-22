@@ -18,7 +18,7 @@ class Main {
     public static function init() {
 
         $display = Helper::getBeansObject('liana', 'display');
-        if ( empty( $display ) || ! $display['is_active'] || !Helper::isSetupApp('liana')) {
+        if ( empty( $display ) || ! $display['is_active']) {
             return;
         }
 

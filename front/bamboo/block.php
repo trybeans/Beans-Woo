@@ -13,7 +13,7 @@ class Block {
     }
 
     public static function render_page($content, $vars=null){
-        if (strpos($content,'[beans_referral_page]') !== false && Helper::isSetupApp('bamboo')) {
+        if (strpos($content,'[beans_referral_page]') !== false) {
             ob_start();
             include(dirname(__FILE__) . '/html-page.php');
             $page = ob_get_clean();
