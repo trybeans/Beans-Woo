@@ -6,6 +6,7 @@ namespace BeansWoo\Front;
 defined('ABSPATH') or die;
 
 use BeansWoo\Front\Liana\Observer;
+use BeansWoo\Front\Liana\Block as BlockLiana;
 use BeansWoo\Helper;
 
 
@@ -107,15 +108,9 @@ class Block
             if (window.liana_init_data.debit.beans === "") {
                 delete window.liana_init_data.debit;
             }
-
-            <?php if (Helper::getCart()->cart_contents_count != 0): ?>
-            window.Beans3.Liana.storage.cart = {
-                item_count: "<?php echo Helper::getCart()->cart_contents_count; ?>",
-                // to avoid the decimal numbers for the points.
-                total_price: "<?php echo Helper::getCart()->subtotal * 100; ?>", // DON'T TOUCH
-            };
-            <?php endif; ?>
-
+        </script>
+            <?php BlockLiana::get_redeem_button_value(); ?>
+        <script>
             window.Beans3.Liana.Radix.init();
             window.Beans3.Bamboo.Radix.init();
             window.Beans3.Poppy.Radix.init();

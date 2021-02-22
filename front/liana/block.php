@@ -32,20 +32,13 @@ class Block {
             <?php
         }
         self::render_cart();
-        if ($fragments){
         ?>
         <script>
-            <?php if (Helper::getCart()->cart_contents_count != 0): ?>
-            window.Beans3.Liana.storage.cart = {
-                item_count: "<?php echo Helper::getCart()->cart_contents_count; ?>",
-                // to avoid the decimal numbers for the points.
-                total_price: "<?php echo Helper::getCart()->subtotal * 100; ?>", // DON'T TOUCH
-            };
-            <?php endif; ?>
-
             window.Beans3.Liana.Radix.init();
         </script>
         <?php
+        if ($fragments){
+            self::get_redeem_button_value();
         }
          $fragments['div.beans-cart'] = ob_get_clean();
          return $fragments;
@@ -67,6 +60,20 @@ class Block {
             $content = str_replace('[beans_page]', $page, $content);
         }
         return $content;
+    }
+
+    public static function get_redeem_button_value(){
+        ?>
+        <script>
+            <?php if (Helper::getCart()->cart_contents_count != 0): ?>
+            window.Beans3.Liana.storage.cart = {
+                item_count: "<?php echo Helper::getCart()->cart_contents_count; ?>",
+                // to avoid the decimal numbers for the points.
+                total_price: "<?php echo Helper::getCart()->subtotal * 100; ?>", // DON'T TOUCH
+            };
+            <?php endif; ?>
+        </script>
+        <?php
     }
 
 }
