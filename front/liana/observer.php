@@ -163,6 +163,9 @@ class Observer {
         $coupon_data['coupon_amount'] = $amount;
         $coupon_data['expiry_date']   = strtotime( '+1 day', time() );
 
+        $coupon_data['date_created']  = strtotime( '-1 hour', time() );
+        $coupon_data['date_modified'] = time();
+
         $_SESSION['liana_coupon'] = $coupon_data;
 
         return $coupon_data;
