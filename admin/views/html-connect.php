@@ -21,7 +21,7 @@ function get_supported_tag( $vs_is_supported ) {
 	}
 }
 
-function check_woo_api_v2_uri( &$http_status, &$content_type ) {
+function check_woo_api_v3_uri( &$http_status, &$content_type ) {
 	$ch         = curl_init();
 	$curlConfig = array(
 		CURLOPT_URL            => BEANS_WOO_API_ENDPOINT,
@@ -82,11 +82,11 @@ $beans_is_supported = $woo_is_supported && $wp_is_supported && $php_is_supported
                       $curl_is_supported && $json_is_supported && $permalink_is_supported &&
                       $wp_permalink_is_supported;
 
-$woo_api_v2_uri_http_status  = null;
-$woo_api_v2_uri_content_type = null;
-$woo_api_v2_uri_is_up        = $beans_is_supported ? check_woo_api_v2_uri( $woo_api_v2_uri_http_status, $woo_api_v2_uri_content_type ) : null;
+$woo_api_v3_uri_http_status  = null;
+$woo_api_v3_uri_content_type = null;
+$woo_api_v3_uri_is_up        = $beans_is_supported ? check_woo_api_v3_uri( $woo_api_v3_uri_http_status, $woo_api_v3_uri_content_type ) : null;
 
-$beans_is_supported = $woo_api_v2_uri_is_up;
+$beans_is_supported = $woo_api_v3_uri_is_up;
 
 $woo_api_v2_auth_http_status  = null;
 $woo_api_v2_auth_content_type = null;
@@ -265,18 +265,18 @@ if (static::$app_name == 'ultimate') {
                     </p>
 				<?php endif; ?>
             </li>
-			<?php if ( ! is_null( $woo_api_v2_uri_is_up ) ): ?>
+			<?php if ( ! is_null( $woo_api_v3_uri_is_up ) ): ?>
                 <li>
                     <p>
-                        <strong>WooCommerce API V2 URI
-                            Test</strong>: <?php get_supported_tag( $woo_api_v2_uri_is_up ); ?>
+                        <strong>WooCommerce API V3 URI
+                            Test</strong>: <?php get_supported_tag( $woo_api_v3_uri_is_up ); ?>
                     </p>
-					<?php if ( ! $woo_api_v2_uri_is_up ): ?>
+					<?php if ( ! $woo_api_v3_uri_is_up ): ?>
                         <p class="beans-admin-check-warning">
                             Unable to connect to the API using endpoint: <br/>
 							<?php echo BEANS_WOO_API_ENDPOINT; ?> <br/>
-                            HTTP Status: <?php echo $woo_api_v2_uri_http_status ?> <br/>
-                            Content Type: <?php echo $woo_api_v2_uri_content_type ?> <br/>
+                            HTTP Status: <?php echo $woo_api_v3_uri_http_status ?> <br/>
+                            Content Type: <?php echo $woo_api_v3_uri_content_type ?> <br/>
                             Please:
                             <a href="mailto:hello@trybeans.com" target="_blank">Contact the Beans Team</a> for
                             assistance.
@@ -330,7 +330,7 @@ if (static::$app_name == 'ultimate') {
         const json_is_supported = "<?php echo $json_is_supported; ?>";
         const permalink_is_supported = "<?php echo $permalink_is_supported; ?>";
         const wp_permalink_is_supported = "<?php echo $wp_permalink_is_supported; ?>";
-        const woo_api_v2_uri_is_up = "<?php echo $woo_api_v2_uri_is_up; ?>";
+        const woo_api_v2_uri_is_up = "<?php echo $woo_api_v3_uri_is_up; ?>";
         const woo_api_v2_auth_is_up = "<?php echo $woo_api_v2_auth_is_up; ?>";
         const beans_is_supported = "<?php echo $beans_is_supported; ?>";
 
