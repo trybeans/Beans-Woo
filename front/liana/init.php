@@ -6,6 +6,7 @@ use BeansWoo\Helper;
 
 include_once('observer.php');
 include_once('observer-product.php');
+include_once ('observer-product-category.php');
 include_once('block.php');
 
 define( 'BEANS_LIANA_COUPON_UID', 'redeem_points' );
@@ -22,6 +23,7 @@ class Main {
 
         Observer::init($display);
         ProductObserver::init($display);
+        ProductCategoryObserver::init($display);
         Block::init($display);
     }
 }

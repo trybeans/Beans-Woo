@@ -18,7 +18,9 @@ class Observer {
         add_filter( 'wp_logout', array( __CLASS__, 'clearSession' ), 10, 1 );
         add_filter( 'wp_login', array( __CLASS__, 'customerLogin' ), 10, 2 );
         add_filter( 'user_register', array( __CLASS__, 'customerRegister' ), 10, 1 );
-        add_filter( 'wp_loaded', array( __CLASS__, 'handleRedemptionForm' ), 30, 1 );
+        if (empty(self::$redemption['exclusive_collection_cms_ids'])) {
+            add_filter( 'wp_loaded', array( __CLASS__, 'handleRedemptionForm' ), 30, 1 );
+        }
         add_filter( 'woocommerce_get_shop_coupon_data', array( __CLASS__, 'getCoupon' ), 10, 2 );
         add_filter( 'woocommerce_checkout_order_processed', array( __CLASS__, 'orderPlaced' ), 10, 1 );
         add_filter( 'woocommerce_order_status_changed', array( __CLASS__, 'orderPaid' ), 10, 3 );
