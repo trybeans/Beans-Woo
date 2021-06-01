@@ -13,7 +13,7 @@ class Block {
 
     public static function render_button_container(){
         ?>
-        <div class="form-row form-row-first beans-arrow"></div>
+        <div class="beans-arrow"></div>
         <?php
     }
 
