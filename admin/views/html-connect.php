@@ -330,14 +330,14 @@ if (static::$app_name == 'ultimate') {
         const json_is_supported = "<?php echo $json_is_supported; ?>";
         const permalink_is_supported = "<?php echo $permalink_is_supported; ?>";
         const wp_permalink_is_supported = "<?php echo $wp_permalink_is_supported; ?>";
-        const woo_api_v2_uri_is_up = "<?php echo $woo_api_v3_uri_is_up; ?>";
+        const woo_api_v3_uri_is_up = "<?php echo $woo_api_v3_uri_is_up; ?>";
         const woo_api_v2_auth_is_up = "<?php echo $woo_api_v2_auth_is_up; ?>";
         const beans_is_supported = "<?php echo $beans_is_supported; ?>";
 
         if (woo_is_supported !== '1' || wp_is_supported !== '1' || php_is_supported !== '1'
             || php_is_supported !== '1' || curl_is_supported !== '1' || json_is_supported !== '1'
             || permalink_is_supported !== '1' || wp_permalink_is_supported !== '1'
-            || woo_api_v2_auth_is_up !== '1' || woo_api_v2_uri_is_up !== '1') {
+            || woo_api_v2_auth_is_up !== '1' || woo_api_v3_uri_is_up !== '1') {
             jQuery('#view-config').text('View less');
             jQuery('#config-status').slideDown('slow');
         }
