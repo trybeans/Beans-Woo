@@ -18,11 +18,13 @@ use BeansWoo\Admin\Connector\UltimateConnector;
 class Main {
 
     public static function init() {
+        UltimateConnector::init();
+        UltimateConnector::update_installed_app();
+
         if (! is_admin()){
             return;
         }
 
-    	UltimateConnector::init();
         Observer::init();
     }
 }

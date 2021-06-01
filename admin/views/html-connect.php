@@ -187,7 +187,9 @@ $connect = "https://". Helper::getDomain( 'CONNECT' ). "/radix/woocommerce/conne
         <?php if (!$permalink_is_supported): ?>
             <p class="beans-admin-check-warning">
                 Please enable Permalinks:
-                <a href="https://codex.wordpress.org/Settings_Permalinks_Screen" target="_blank">How to enable Permalink</a>
+                <a href="https://codex.wordpress.org/Settings_Permalinks_Screen" target="_blank">
+                    How to enable Permalink
+                </a>
             </p>
         <?php endif; ?>
     </li>

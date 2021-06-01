@@ -8,9 +8,6 @@ use BeansWoo\Helper;
 
 class Observer
 {
-
-    public static $submenu_pages = [];
-
     public static function init()
     {
 
@@ -27,8 +24,10 @@ class Observer
 
     public static function admin_style()
     {
-        wp_enqueue_style('admin-styles', plugins_url('assets/css/beans-admin.css',
-            BEANS_PLUGIN_FILENAME));
+        wp_enqueue_style(
+                'admin-styles',
+                plugins_url('assets/css/beans-admin.css', BEANS_PLUGIN_FILENAME)
+        );
     }
 
     public static function setting_options()
@@ -50,7 +49,8 @@ class Observer
         <div>
             <input type="checkbox" id="beans-liana-display-redemption-checkout"
                    name="beans-liana-display-redemption-checkout"
-                   value="1" <?php checked(1, get_option('beans-liana-display-redemption-checkout'), true); ?> />
+                   value="1" <?php checked(1, get_option('beans-liana-display-redemption-checkout'), true); ?>
+            />
             <label for="beans-liana-display-redemption-checkout">Display redemption on checkout page</label>
         </div>
         <?php

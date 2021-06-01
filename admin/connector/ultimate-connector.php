@@ -122,19 +122,21 @@ class UltimateConnector {
         }
 
         if (! Helper::isSetup() || ! Helper::isSetupApp(static::$app_name)) {
-            echo '<div class="notice notice-error " style="margin-left: auto"><div style="margin: 10px auto;"> Beans: ' .
-                __(  "Beans Ultimate is not properly setup.", 'beans-woo' ) .
-                ' <a href="'. BEANS_WOO_MENU_LINK . '">' .
-                __( 'Set up', 'beans-woo' ) .
-                '</a><a style="float:right; text-decoration: none;" href="?beans_'. static::$app_name .'_notice_dismissed">x</a>' .
-                '</div></div>';
+            echo '<div class="notice notice-error " style="margin-left: auto"><div style="margin: 10px auto;"> Beans: '
+                . __(  "Beans Ultimate is not properly setup.", 'beans-woo' ) .
+                ' <a href="'. BEANS_WOO_MENU_LINK . '">' . __( 'Set up', 'beans-woo' ) . '</a>
+                 <a style="float:right; text-decoration: none;" href="?beans_'. static::$app_name .'_notice_dismissed">
+                    x
+                 </a>' . '</div></div>';
         }
     }
 
     public static function notice_dismissed() {
         $user_id = get_current_user_id();
         if ( isset( $_GET['beans_'. static::$app_name .'_notice_dismissed'] ) ){
-            add_user_meta( $user_id, 'beans_'. static::$app_name .'_notice_dismissed', 'true', true );
+            add_user_meta(
+                    $user_id, 'beans_'. static::$app_name .'_notice_dismissed', 'true', true
+            );
             $location = $_SERVER['HTTP_REFERER'];
             wp_safe_redirect($location);
         }
@@ -145,26 +147,18 @@ class UltimateConnector {
         delete_option(Helper::CONFIG_NAME);
     }
 
-    protected static function update_installed_app(){
-
-        if (self::$card){
-            foreach (self::$card['apps'] as $app => $status){
-                $app = strtolower($app);
-                if( $status['is_installed'] ){
-                    if(in_array($app, ['bamboo', 'liana'])) {
-                        self::_install_assets($app);
-                    }
-                    Helper::setInstalledApp($app);
-                }
+    public static function update_installed_app(){
+        foreach (self::$card['apps'] as $app => $status){
+            $app = strtolower($app);
+            if( $status['is_installed'] ){
+                self::_install_assets($app);
+                Helper::setInstalledApp($app);
             }
         }
     }
 
     public static function install_default_assets(){
-        $app_names = ['liana', 'bamboo'];
-
-        foreach ($app_names as $app_name){
-            self::_install_assets($app_name);
-        }
+        self::_install_assets('liana');
+        self::_install_assets('bamboo');
     }
 }

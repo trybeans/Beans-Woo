@@ -16,6 +16,7 @@ define( 'BEANS_LIANA_COUPON_UID', 'redeem_points' );
 class Main {
 
     public static function init() {
+        Block::init();
 
         $display = Helper::getBeansObject('liana', 'display');
         if ( empty( $display ) || ! $display['is_active']) {
@@ -24,6 +25,5 @@ class Main {
 
         Observer::init($display);
         ProductObserver::init($display);
-        Block::init();
     }
 }

@@ -9,9 +9,7 @@ $base_asset_path = '/assets/img/admin/onboarding';
 ?>
 
 
-<img class="beans-admin-logo"
-     src="<?php echo $base_banner_url; ?>logo-full-ultimate.svg"
-     alt="ultimate-logo">
+<img class="beans-admin-logo"  src="<?php echo $base_banner_url; ?>logo-full-ultimate.svg"  alt="ultimate-logo">
 <div class="welcome-panel-ultimate beans-admin-content-ultimate" style="max-width: 600px; margin: auto">
     <div>
         <div style="background-color:white; padding-top: 10px; padding-bottom: 60px;
@@ -40,8 +38,9 @@ $base_asset_path = '/assets/img/admin/onboarding';
                         <div style=" margin-left: .5rem; margin-top: 2px;">
                             <svg width="8" height="11" viewBox="0 0 8 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
-                                      d="M1.69525 0.113281L7.0838 5.50183L1.69525 10.8904L0.292725 9.48785L4.27875 5.50183L0.292725 1.51581L1.69525 0.113281Z"
-                                      fill="white"></path>
+                                      d="M1.69525 0.113281L7.0838 5.50183L1.69525 10.8904L0.292725
+                                      9.48785L4.27875 5.50183L0.292725 1.51581L1.69525 0.113281Z" fill="white">
+                                </path>
                             </svg>
                         </div>
                     </button>
