@@ -17,6 +17,8 @@
 
 namespace Beans\Error;
 
+defined('ABSPATH') or die;
+
 class BaseError extends \Exception
 {
     public function __construct($error=array())

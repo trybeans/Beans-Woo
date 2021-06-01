@@ -8,15 +8,11 @@ use BeansWoo\Helper;
 
 class Observer
 {
-
-    public static $submenu_pages = [];
-
     public static function init()
     {
 
         add_action('admin_enqueue_scripts', array(__CLASS__, 'admin_style'));
         add_action("admin_init", array(__CLASS__, "setting_options"));
-        add_filter("plugin_action_links_".BEANS_PLUGIN_FILENAME, array(__CLASS__, 'plugin_settings_links' ), 10, 1);
 
         add_action('admin_notices', array('\BeansWoo\Admin\Connector\UltimateConnector', 'admin_notice'));
         add_action('admin_init', array('\BeansWoo\Admin\Connector\UltimateConnector', 'notice_dismissed'));
@@ -28,8 +24,10 @@ class Observer
 
     public static function admin_style()
     {
-        wp_enqueue_style('admin-styles', plugins_url('assets/css/beans-admin.css',
-            BEANS_PLUGIN_FILENAME));
+        wp_enqueue_style(
+                'admin-styles',
+                plugins_url('assets/css/beans-admin.css', BEANS_PLUGIN_FILENAME)
+        );
     }
 
     public static function setting_options()
@@ -51,7 +49,8 @@ class Observer
         <div>
             <input type="checkbox" id="beans-liana-display-redemption-checkout"
                    name="beans-liana-display-redemption-checkout"
-                   value="1" <?php checked(1, get_option('beans-liana-display-redemption-checkout'), true); ?> />
+                   value="1" <?php checked(1, get_option('beans-liana-display-redemption-checkout'), true); ?>
+            />
             <label for="beans-liana-display-redemption-checkout">Display redemption on checkout page</label>
         </div>
         <?php
@@ -83,13 +82,4 @@ class Observer
         }
     }
 
-    public static function plugin_settings_links($links) {
-        $row_meta = array(
-            'help' => '<a href="http://help.trybeans.com/" target="_blank" title="Help">Help Center</a>',
-            'support' => '<a href="mailto:hello@trybeans.com" title="Support">Contact Support</a>',
-            'settings' => '<a href='.BEANS_WOO_MENU_LINK.'>Settings</a>'
-        );
-
-        return array_merge($links, $row_meta);
-    }
 }

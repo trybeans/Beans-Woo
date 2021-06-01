@@ -20,7 +20,7 @@ if ( isset($_POST) && isset($_POST['beans-liana-display-redemption-checkout']) )
 }
 
 $app_name = static::$app_name;
-$base_asset_path = 'assets/img/admin/connector';
+$base_asset_path = 'assets/img/connector';
 
 ?>
 
@@ -80,12 +80,10 @@ $base_asset_path = 'assets/img/admin/connector';
         <?php if (Helper::isSetupApp('bamboo') ): ?>
             <div class="beans-woo-reward">
                 <div>
-                    <div class="beans-woo-reward-title">
-                            Referral page
-                    </div>
+                    <div class="beans-woo-reward-title">Referral page</div>
                     <div class="beans-woo-reward-description">
-                            The referral page is available on your website and let your customers join and use your referral
-                            program.
+                        The referral page is available on your website and let your customers join
+                        and use your referral program.
                     </div>
                     <span class="" >
                         <a style="margin-top: 10px;" class="button beans-woo-reward-link" target="_blank"
@@ -121,16 +119,14 @@ $base_asset_path = 'assets/img/admin/connector';
                 <span class="beans-woo-help-action">
                     <a target="_blank" href="https://web.facebook.com/groups/1220975858059106/">
                         <span>
-                            <img
-                                    src="<?php echo plugins_url($base_asset_path. '/facebook.svg', BEANS_PLUGIN_FILENAME); ?>" width="18px" height="18px"/>
+                            <img src="<?php echo plugins_url($base_asset_path. '/facebook.svg', BEANS_PLUGIN_FILENAME); ?>" width="18px" height="18px"/>
                         </span>Join Facebook Group
                     </a>
                 </span>
                 <span class="beans-woo-help-action">
                     <a target="_blank" href="https://twitter.com/beanshq">
                         <span>
-                            <img
-                                    src="<?php echo plugins_url($base_asset_path. '/twitter.svg', BEANS_PLUGIN_FILENAME); ?>" width="18px" height="18px"/>
+                            <img src="<?php echo plugins_url($base_asset_path. '/twitter.svg', BEANS_PLUGIN_FILENAME); ?>" width="18px" height="18px"/>
                         </span>Follow us on Twitter
                     </a>
                 </span>

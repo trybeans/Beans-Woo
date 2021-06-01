@@ -1,5 +1,7 @@
 <?php
 use BeansWoo\Helper;
+defined('ABSPATH') or die;
+
 ?>
   <div id="liana-rewards-page">
     <!-- DO NOT TOUCH -->

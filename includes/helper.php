@@ -195,6 +195,10 @@ class Helper {
     }
 
 	public static function setInstalledApp($app_name){
+        if (self::isSetupApp($app_name)){
+            return ;
+        }
+
 		$config         = get_option( self::CONFIG_NAME );
 		if (isset($config['apps'])){
 			if( !in_array($app_name, $config['apps']) ){

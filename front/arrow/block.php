@@ -3,6 +3,8 @@
 
 namespace BeansWoo\Front\Arrow;
 
+defined('ABSPATH') or die;
+
 class Block {
 
     public static function init(){

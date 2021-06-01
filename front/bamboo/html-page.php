@@ -1,5 +1,8 @@
 <?php
 use BeansWoo\Helper;
+
+defined('ABSPATH') or die;
+
 ?>
   <div id="bamboo-referral-page">
     <!-- DO NOT TOUCH -->

@@ -2,6 +2,8 @@
 
 namespace BeansWoo\Front\Bamboo;
 
+defined('ABSPATH') or die;
+
 include_once('block.php');
 
 

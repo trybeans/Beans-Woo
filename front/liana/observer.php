@@ -249,8 +249,8 @@ class Observer {
                 }
 
                 $coupon = new \WC_Coupon( $code );
-
-                $amount     = (double) ( property_exists( $coupon, 'coupon_amount' ) ? $coupon->coupon_amount : $coupon->amount );
+                $coupon->get_amount();
+                $amount     = (double) $coupon->get_amount();
                 $amount     = sprintf( '%0.2f', $amount );
                 $amount_str = sprintf( get_woocommerce_price_format(), get_woocommerce_currency_symbol(), $amount );
 
@@ -259,7 +259,7 @@ class Observer {
                     'rule'        => strtoupper( get_woocommerce_currency() ),
                     'account'     => $account['id'],
                     'description' => "Debited for a $amount_str discount",
-                    'uid'         => 'wc_' . $order->get_id() . '_' . $order->order_key,
+                    'uid'         => 'wc_' . $order->get_id() . '_' . $order->get_order_key(),
                     'commit'      => true
                 );
 
@@ -282,12 +282,14 @@ class Observer {
     public static function orderPaid( $order_id, $old_status, $new_status ) {
         $order   = new \WC_Order( $order_id );
         $account = null;
-
+        $email = $order->get_billing_email();
+        $first_name = $order->get_billing_first_name();
+        $last_name = $order->get_billing_last_name();
         try {
-            $account = Helper::API()->get( '/liana/account/' . $order->billing_email );
+            $account = Helper::API()->get( '/liana/account/' . $email );
         } catch ( \Beans\Error\ValidationError $e ) {
             if ( $e->getCode() == 404 && $order->customer_user ) {
-                $account = self::createBeansAccount( $order->billing_email, $order->billing_first_name, $order->billing_last_name );
+                $account = self::createBeansAccount( $email, $first_name, $last_name );
             } else {
                 Helper::log( 'Looking for Beans account for crediting failed with message: ' . $e->getMessage() );
             }
