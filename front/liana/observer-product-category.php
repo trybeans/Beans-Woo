@@ -50,7 +50,7 @@ class ProductCategoryObserver
             Observer::updateSession();
             wc_add_notice(
                 self::$i18n_strings['redemption']['redeem_is_limited_to_collection'].
-                ": ". implode(", ", self::$category_names),
+                " ". implode(", ", self::$category_names),
                 'notice'
             );
         }
