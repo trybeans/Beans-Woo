@@ -10,7 +10,6 @@ class ProductCategoryObserver
 {
     public static $display;
     public static $redemption;
-    public static $i18n_strings;
 
     public static $pay_with_point_categories_ids;
 
@@ -18,7 +17,6 @@ class ProductCategoryObserver
     {
         self::$display = $display;
         self::$redemption = $display['redemption'];
-        self::$i18n_strings = self::$display['i18n_strings'];
 
         if (empty(self::$redemption['exclusive_collection_cms_ids'])) {
             return;
