@@ -66,7 +66,7 @@ class Block
         $debit = array();
 
         if (is_user_logged_in() and !isset($_SESSION["liana_account"])) {
-            Observer::customerRegister(get_current_user_id());
+            Observer::customer_register(get_current_user_id());
         }
 
         if (isset($_SESSION['liana_token'])) $token = $_SESSION['liana_token'];

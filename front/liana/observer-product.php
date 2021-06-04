@@ -30,18 +30,18 @@ class ProductObserver
             return (int)$value;
         }, self::$redemption['reward_exclusive_product_cms_ids']);
 
-        add_action('wp_loaded', array(__CLASS__, 'applyPayWithPointRedemption'), 99, 1);
-        add_action('woocommerce_remove_cart_item', array(__CLASS__, 'removeProductFromCart'), 99, 2);
+        add_action('wp_loaded', array(__CLASS__, 'apply_pay_with_point_redemption'), 99, 1);
+        add_action('woocommerce_remove_cart_item', array(__CLASS__, 'remove_product_from_cart'), 99, 2);
 
-        add_filter('woocommerce_is_purchasable', array(__CLASS__, 'isPurchasableProduct'), 99, 2);
-        add_filter('woocommerce_is_sold_individually', array(__CLASS__, 'isSoldIndividuallyProduct'), 99, 2);
-        add_filter('woocommerce_product_single_add_to_cart_text', array(__CLASS__, 'addToCartButtonText'), 99, 2);
-        add_filter('woocommerce_add_to_cart_validation', array(__CLASS__, 'addToCartValidation'), 99, 5);
-        add_filter( 'woocommerce_get_price_html', array(__CLASS__, 'updateProductPrice'), 20, 2 );
+        add_filter('woocommerce_is_purchasable', array(__CLASS__, 'is_purchasable_product'), 99, 2);
+        add_filter('woocommerce_is_sold_individually', array(__CLASS__, 'is_sold_individually_product'), 99, 2);
+        add_filter('woocommerce_product_single_add_to_cart_text', array(__CLASS__, 'add_to_cart_button_text'), 99, 2);
+        add_filter('woocommerce_add_to_cart_validation', array(__CLASS__, 'add_to_cart_validation'), 99, 5);
+        add_filter( 'woocommerce_get_price_html', array(__CLASS__, 'update_product_Price'), 20, 2 );
 
     }
 
-    public static function addToCartButtonText($button_text, $product)
+    public static function add_to_cart_button_text($button_text, $product)
     {
 
         if (in_array($product->get_id(), self::$pay_with_point_product_ids)) {
@@ -56,7 +56,7 @@ class ProductObserver
         return $button_text;
     }
 
-    public static function isSoldIndividuallyProduct($is_sol_individually, $product)
+    public static function is_sold_individually_product($is_sol_individually, $product)
     {
         $product_id = (int)$product->get_parent_id();
         if ((int)$product_id === 0){
@@ -69,7 +69,7 @@ class ProductObserver
         return $is_sol_individually;
     }
 
-    public static function isPurchasableProduct($is_purchasable, $product)
+    public static function is_purchasable_product($is_purchasable, $product)
     {
         $product_with_points = array();
 
@@ -95,7 +95,7 @@ class ProductObserver
         return $is_purchasable;
     }
 
-    public static function addToCartValidation($result, $product_id, $quantity, $variation_id = 0, $variations = null)
+    public static function add_to_cart_validation($result, $product_id, $quantity, $variation_id = 0, $variations = null)
     {
         if (!is_user_logged_in() && in_array($product_id, self::$pay_with_point_product_ids)) {
             wc_add_notice(self::$i18n_strings['reward_product']['join_and_get'], 'error');
@@ -108,7 +108,7 @@ class ProductObserver
                 $product = new \WC_Product_Variation($variation_id);
             }
 
-            Observer::updateSession();
+            Observer::update_session();
             $account = $_SESSION['liana_account'];
 
             $min_beans = $product->get_price() * self::$display['beans_rate'];
@@ -118,7 +118,8 @@ class ProductObserver
                     self::$i18n_strings['reward_product']['not_enough_points'],
                     array(
                         "beans_name" => self::$display['beans_name'],
-                    )) , 'notice' );
+                    )) , 'notice'
+                );
                 $result = false;
             }
         }
@@ -126,7 +127,7 @@ class ProductObserver
         return $result;
     }
 
-    public static function applyPayWithPointRedemption()
+    public static function apply_pay_with_point_redemption()
     {
         $cart = Helper::getCart();
 
@@ -156,8 +157,8 @@ class ProductObserver
         }
 
         if (count($product_ids) != 0 && !$cart->has_discount(BEANS_LIANA_COUPON_UID)) {
-            Observer::cancelRedemption();
-            Observer::updateSession();
+            Observer::cancel_redemption();
+            Observer::update_session();
 
             # force quantity to be always equal to 1 for `pay wit point product`
             foreach ($product_ids as $cart_item_key => $pay_with_point_product_id){
@@ -182,7 +183,7 @@ class ProductObserver
         }
     }
 
-    public static function updateProductPrice($price_html, $product){
+    public static function update_product_Price($price_html, $product){
         $product_id = (int)$product->get_parent_id();
         if ((int)$product_id === 0){
             $product_id = (int)$product->get_id();
@@ -195,13 +196,13 @@ class ProductObserver
         return $price_html;
     }
 
-    public static function removeProductFromCart($cart_item_key, $cart){
+    public static function remove_product_from_cart($cart_item_key, $cart){
         $cart_item = $cart->get_cart()[$cart_item_key];
 
         if (in_array($cart_item['product_id'], self::$pay_with_point_product_ids) && $cart->has_discount(BEANS_LIANA_COUPON_UID)) {
             $cart->remove_coupon(BEANS_LIANA_COUPON_UID);
-            Observer::cancelRedemption();
-            Observer::updateSession();
+            Observer::cancel_redemption();
+            Observer::update_session();
         }
     }
 }

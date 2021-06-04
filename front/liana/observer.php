@@ -17,25 +17,25 @@ class Observer {
         self::$redemption = $display['redemption'];
         self::$i18n_strings = self::$display['i18n_strings'];
 
-        add_action( 'wp_logout', array( __CLASS__, 'clearSession' ), 10, 1 );
-        add_action( 'wp_login', array( __CLASS__, 'customerLogin' ), 10, 2 );
+        add_action( 'wp_logout', array( __CLASS__, 'clear_session' ), 10, 1 );
+        add_action( 'wp_login', array( __CLASS__, 'customer_login' ), 10, 2 );
 
-        add_action( 'wp_loaded', array( __CLASS__, 'handleRedemptionForm' ), 30, 1 );
+        add_action( 'wp_loaded', array( __CLASS__, 'handle_redemption_form' ), 30, 1 );
 
-        add_filter( 'woocommerce_get_shop_coupon_data', array( __CLASS__, 'getCoupon' ), 10, 2 );
+        add_filter( 'woocommerce_get_shop_coupon_data', array( __CLASS__, 'get_coupon' ), 10, 2 );
 
-        add_action( 'woocommerce_checkout_order_processed', array( __CLASS__, 'orderPlaced' ), 10, 1 );
-        add_action( 'woocommerce_order_status_changed', array( __CLASS__, 'orderPaid' ), 10, 3 );
+        add_action( 'woocommerce_checkout_order_processed', array( __CLASS__, 'order_placed' ), 10, 1 );
+        add_action( 'woocommerce_order_status_changed', array( __CLASS__, 'order_paid' ), 10, 3 );
     }
 
-    public static function clearSession() {
+    public static function clear_session() {
         unset( $_SESSION['liana_token'] );
         unset( $_SESSION['liana_account'] );
         unset( $_SESSION['liana_coupon'] );
         unset( $_SESSION['liana_debit'] );
     }
 
-    public static function createBeansAccount( $email, $firstname, $lastname ) {
+    public static function create_beans_account($email, $firstname, $lastname ) {
         try {
             return Helper::API()->post( '/liana/account', array(
                 'email'      => $email,
@@ -49,11 +49,11 @@ class Observer {
         return null;
     }
 
-    public static function customerLogin( $user_login, $user ) {
-        self::customerRegister( $user->ID );
+    public static function customer_login($user_login, $user ) {
+        self::customer_register( $user->ID );
     }
 
-    public static function customerRegister( $user_id ) {
+    public static function customer_register($user_id ) {
 
         $user_data = get_userdata( $user_id );
 
@@ -82,7 +82,7 @@ class Observer {
         $email = $user_data->user_email;
 
         if ( $email ) {
-            $account                   = self::createBeansAccount( $email, $first_name, $last_name );
+            $account                   = self::create_beans_account( $email, $first_name, $last_name );
             $_SESSION['liana_account'] = $account;
             if ( $account ) {
                 try{
@@ -94,7 +94,7 @@ class Observer {
         }
     }
 
-    public static function handleRedemptionForm() {
+    public static function handle_redemption_form() {
 
 
         if ( ! isset( $_POST['beans_action'] ) ) {
@@ -104,13 +104,13 @@ class Observer {
         $action = $_POST['beans_action'];
 
         if ( $action == 'apply' ) {
-            self::applyRedemption();
+            self::apply_redemption();
         } else {
-            self::cancelRedemption();
+            self::cancel_redemption();
         }
     }
 
-    public static function getCoupon( $coupon, $coupon_code ) {
+    public static function get_coupon($coupon, $coupon_code ) {
 
         if ( $coupon_code != BEANS_LIANA_COUPON_UID ) {
             return $coupon;
@@ -171,14 +171,14 @@ class Observer {
         return $coupon_data;
     }
 
-    public static function applyRedemption() {
+    public static function apply_redemption() {
 
         if ( ! isset( $_SESSION['liana_account'] ) ) {
             return;
         }
 
-        self::cancelRedemption();
-        self::updateSession();
+        self::cancel_redemption();
+        self::update_session();
 
         $account = $_SESSION['liana_account'];
 
@@ -221,7 +221,7 @@ class Observer {
         $cart->apply_coupon( BEANS_LIANA_COUPON_UID );
     }
 
-    public static function cancelRedemption() {
+    public static function cancel_redemption() {
 
         Helper::getCart()->remove_coupon( BEANS_LIANA_COUPON_UID );
 
@@ -229,7 +229,7 @@ class Observer {
         unset( $_SESSION['liana_debit'] );
     }
 
-    public static function orderPlaced( $order_id ) {
+    public static function order_placed($order_id ) {
         $order = new \WC_Order( $order_id );
 
         $account = null;
@@ -275,11 +275,11 @@ class Observer {
             }
         }
 
-        self::cancelRedemption();
-        self::updateSession();
+        self::cancel_redemption();
+        self::update_session();
     }
 
-    public static function orderPaid( $order_id, $old_status, $new_status ) {
+    public static function order_paid($order_id, $old_status, $new_status ) {
         $order   = new \WC_Order( $order_id );
         $account = null;
         $email = $order->get_billing_email();
@@ -289,7 +289,7 @@ class Observer {
             $account = Helper::API()->get( '/liana/account/' . $email );
         } catch ( \Beans\Error\ValidationError $e ) {
             if ( $e->getCode() == 404 && $order->customer_user ) {
-                $account = self::createBeansAccount( $email, $first_name, $last_name );
+                $account = self::create_beans_account( $email, $first_name, $last_name );
             } else {
                 Helper::log( 'Looking for Beans account for crediting failed with message: ' . $e->getMessage() );
             }
@@ -316,10 +316,10 @@ class Observer {
                 Helper::log( 'Cancelling credit failed with message: ' . $e->getMessage() );
             }
         }
-        self::updateSession();
+        self::update_session();
     }
 
-    public static function updateSession() {
+    public static function update_session() {
         $account = null;
         if ( ! empty( $_SESSION['liana_account'] ) ) {
             $account = $_SESSION['liana_account'];
