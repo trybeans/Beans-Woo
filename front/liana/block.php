@@ -24,7 +24,7 @@ class Block {
         $cart  = Helper::getCart();
         ob_start();
         if(count($cart->get_cart()) == 0){
-            Observer::cancelRedemption();
+            Observer::cancel_redemption();
             ?>
             <script>
                 delete window.liana_init_data.debit
