@@ -4,7 +4,7 @@ defined('ABSPATH') or die;
 
 use BeansWoo\Helper;
 
-$base_banner_url = 'https://'.Helper::getDomain('STATIC'). '/static-v3/connect/img/app/';
+$base_banner_url = 'https://'.Helper::getDomain('CDN'). '/static-v3/connect/img/app/';
 $base_asset_path = '/assets/img/admin/onboarding';
 ?>
 
@@ -47,7 +47,7 @@ $base_asset_path = '/assets/img/admin/onboarding';
                 </div>
                 <div id="beans-ultimate-connect" style="display: none">
                     <p class="wc-setup-actions step" style="justify-content: center; display: flex" id="beans-ultimate-submit-button">
-                        <?php if ( $beans_is_supported || $force ): ?>
+                        <?php if ( \BeansWoo\Admin\CheckConfig::$beans_is_supported || $force ): ?>
                         <button type="submit" class="btn beans-bg-primary beans-bg-primary-ultimate
                             shadow-md" value="Connect to Beans Ultimate">
                             <?php else: ?>

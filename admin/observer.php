@@ -18,7 +18,7 @@ class Observer
         add_action('admin_init', array('\BeansWoo\Admin\Connector\UltimateConnector', 'notice_dismissed'));
 
         add_action('admin_menu', array(__CLASS__, 'admin_menu'));
-        add_action('admin_init', array(__CLASS__, 'admin_is_curl_notice'), 0, 100);
+        add_action('admin_init', array(__CLASS__, 'admin_is_curl_notice'), 0, 99);
 
     }
 
@@ -47,9 +47,11 @@ class Observer
         ?>
         <!-- Here we are comparing stored value with 1. Stored value is 1 if user checks the checkbox otherwise empty string. -->
         <div>
-            <input type="checkbox" id="beans-liana-display-redemption-checkout"
+            <input type="checkbox"
+                   id="beans-liana-display-redemption-checkout"
                    name="beans-liana-display-redemption-checkout"
-                   value="1" <?php checked(1, get_option('beans-liana-display-redemption-checkout'), true); ?>
+                   value="1"
+                <?php checked(1, get_option('beans-liana-display-redemption-checkout'), true); ?>
             />
             <label for="beans-liana-display-redemption-checkout">Display redemption on checkout page</label>
         </div>
@@ -73,12 +75,16 @@ class Observer
 
     public static function admin_is_curl_notice()
     {
-        $text = "cURL is not installed. Please install and activate, otherwise, the Beans program may not work.";
-
+        $text = __(
+                "cURL is not installed. Please install and activate, otherwise, the Beans program may not work.",
+                'beans-woo'
+        );
         if (! Helper::isCURL()) {
-            echo '<div class="notice notice-warning " style="margin-left: auto"><div style="margin: 10px auto;"> Beans: ' .
-                __($text, 'beans-woo') .
-                '</div></div>';
+            ?>
+            <div class="notice notice-warning" style="margin-left: auto">
+                <div style="margin: 10px auto;"> Beans: <?php echo $text; ?></div>
+            </div>
+            <?php
         }
     }
 

@@ -20,7 +20,7 @@ class Helper {
             'API'     => 'api-3.trybeans.com',
             'CONNECT' => 'connect.trybeans.com',
             'WWW'     => 'www.trybeans.com',
-            'STATIC' => 'trybeans.s3.amazonaws.com'
+            'CDN' => 'cdn.trybeans.com',
         );
         $val     = getenv( $key );
 

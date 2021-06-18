@@ -37,7 +37,7 @@ class ProductObserver
         add_filter('woocommerce_is_sold_individually', array(__CLASS__, 'is_sold_individually_product'), 99, 2);
         add_filter('woocommerce_product_single_add_to_cart_text', array(__CLASS__, 'add_to_cart_button_text'), 99, 2);
         add_filter('woocommerce_add_to_cart_validation', array(__CLASS__, 'add_to_cart_validation'), 99, 5);
-        add_filter( 'woocommerce_get_price_html', array(__CLASS__, 'update_product_Price'), 20, 2 );
+        add_filter( 'woocommerce_get_price_html', array(__CLASS__, 'update_product_price'), 20, 2 );
 
     }
 
@@ -100,7 +100,8 @@ class ProductObserver
         if (!is_user_logged_in() && in_array($product_id, self::$pay_with_point_product_ids)) {
             wc_add_notice(self::$i18n_strings['reward_product']['join_and_get'], 'error');
             $result = false;
-        } else if (is_user_logged_in() && isset($_SESSION['liana_account']) && in_array($product_id, self::$pay_with_point_product_ids)) {
+        } else if (is_user_logged_in() && isset($_SESSION['liana_account'])
+            && in_array($product_id, self::$pay_with_point_product_ids)) {
             if ((int)$variation_id === 0){
                 $product = wc_get_product($product_id);
             }
@@ -183,7 +184,7 @@ class ProductObserver
         }
     }
 
-    public static function update_product_Price($price_html, $product){
+    public static function update_product_price($price_html, $product){
         $product_id = (int)$product->get_parent_id();
         if ((int)$product_id === 0){
             $product_id = (int)$product->get_id();
@@ -191,7 +192,8 @@ class ProductObserver
 
         if (in_array($product_id, self::$pay_with_point_product_ids) &&
             ! in_array(Helper::getCurrentPage(), array('cart', 'product'))) {
-            $price_html = '<span class="amount">'. $product->get_price() * self::$display['beans_rate'] .' '. self::$display['beans_name']. ' </span>';
+            $price_html = '<span class="amount">'.
+                $product->get_price() * self::$display['beans_rate'] .' '. self::$display['beans_name']. ' </span>';
         }
         return $price_html;
     }
@@ -199,7 +201,8 @@ class ProductObserver
     public static function remove_product_from_cart($cart_item_key, $cart){
         $cart_item = $cart->get_cart()[$cart_item_key];
 
-        if (in_array($cart_item['product_id'], self::$pay_with_point_product_ids) && $cart->has_discount(BEANS_LIANA_COUPON_UID)) {
+        if (in_array($cart_item['product_id'], self::$pay_with_point_product_ids)
+            && $cart->has_discount(BEANS_LIANA_COUPON_UID)) {
             $cart->remove_coupon(BEANS_LIANA_COUPON_UID);
             Observer::cancel_redemption();
             Observer::update_session();
