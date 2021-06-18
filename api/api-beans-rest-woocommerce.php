@@ -128,7 +128,7 @@ class BeansRestWoocommerce
                 'page_visible' => $page_visible,
                 'page_name' => $values['page_name'],
                 'shortcode' => $values['shortcode'],
-                'path' => str_replace(home_url(), '', get_permalink(Helper::getConfig($app_name . '_page'))),
+                'path' => str_replace(home_url(), '', get_permalink(Helper::getConfig($app_name . '_page')))
             );
         }
 

@@ -38,9 +38,10 @@ class Block
             window.beans_shop_page = "<?php echo wc_get_page_permalink( 'shop' ); ?>";
             window.beans_login_page = "<?php echo wc_get_page_permalink('myaccount'); ?>";
             window.beans_register_page = "<?php echo wc_get_page_permalink('myaccount'); ?>";
-            window.beans_cjs_id = "<?php echo is_user_logged_in() ? wp_get_current_user()->ID : ''; ?>";
             window.beans_reward_page = "<?php echo get_permalink(Helper::getConfig('liana_page')); ?>";
             window.beans_referral_page = "<?php echo get_permalink(Helper::getConfig('bamboo_page')); ?>";
+
+            window.beans_cjs_id = "<?php echo is_user_logged_in() ? wp_get_current_user()->ID : ''; ?>";
             window.beans_cjs_email = "<?php echo is_user_logged_in() ? wp_get_current_user()->user_email : ''; ?>";
         </script>
         <?php
@@ -50,7 +51,7 @@ class Block
     {
         wp_enqueue_script(
             'beans-ultimate-js',
-            'https://'. Helper::getDomain("STATIC").
+            'https://'. Helper::getDomain("CDN").
             '/lib/ultimate/3.2/js/woocommerce/ultimate.beans.js?radix=woocommerce&id='.Helper::getConfig('card'),
             array(),
             time(),

@@ -62,7 +62,7 @@ class UltimateConnector {
         self::_render_notices();
 
         if ( Helper::isSetup() && Helper::isSetupApp(static::$app_name) ) {
-            self::update_installed_app();
+            self::update_installed_apps();
             return include( dirname( __FILE__ , 2) . '/views/html-info.php' );
         }
 
@@ -122,12 +122,18 @@ class UltimateConnector {
         }
 
         if (! Helper::isSetup() || ! Helper::isSetupApp(static::$app_name)) {
-            echo '<div class="notice notice-error " style="margin-left: auto"><div style="margin: 10px auto;"> Beans: '
-                . __(  "Beans Ultimate is not properly setup.", 'beans-woo' ) .
-                ' <a href="'. BEANS_WOO_MENU_LINK . '">' . __( 'Set up', 'beans-woo' ) . '</a>
-                 <a style="float:right; text-decoration: none;" href="?beans_'. static::$app_name .'_notice_dismissed">
-                    x
-                 </a>' . '</div></div>';
+            ?>
+                <div class="notice notice-error" style="margin-left: auto">
+                    <div style="margin: 10px auto;">
+                        Beans: <?php echo __("Beans Ultimate is not properly setup", 'beans-woo'); ?>
+                        <a href="<?php echo BEANS_WOO_MENU_LINK; ?>"><?php echo __('Set up', 'beans-woo') ?></a>
+                        <a href="?beans_<?php echo static::$app_name?>._notice_dismissed"
+                           style="float:right; text-decoration: none">
+                            x
+                        </a>
+                    </div>
+                </div>
+            <?php
         }
     }
 
@@ -147,7 +153,9 @@ class UltimateConnector {
         delete_option(Helper::CONFIG_NAME);
     }
 
-    public static function update_installed_app(){
+    public static function update_installed_apps(){
+        if (! is_array(self::$card)) return;
+
         foreach (self::$card['apps'] as $app => $status){
             $app = strtolower($app);
             if( $status['is_installed'] ){
