@@ -249,7 +249,6 @@ class Observer {
                 }
 
                 $coupon = new \WC_Coupon( $code );
-                $coupon->get_amount();
                 $amount     = (double) $coupon->get_amount();
                 $amount     = sprintf( '%0.2f', $amount );
                 $amount_str = sprintf( get_woocommerce_price_format(), get_woocommerce_currency_symbol(), $amount );
@@ -300,8 +299,6 @@ class Observer {
         if ( ! $account ) {
             return;
         }
-
-        $total = $order->get_total() - $order->get_shipping_total();
 
         if ( $new_status == 'cancelled' ) {
             $order_key = 'wc_' . $order->get_id() . '_' . $order->order_key;

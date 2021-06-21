@@ -13,7 +13,6 @@ use BeansWoo\Front\Bamboo\Main as BambooMain;
 use BeansWoo\Front\Arrow\Main as ArrowMain;
 
 class Main {
-    public static $card;
     public static function init(){
         Block::init();
         LianaMain::init();
