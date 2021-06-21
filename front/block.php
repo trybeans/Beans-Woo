@@ -12,8 +12,6 @@ use BeansWoo\Helper;
 
 class Block
 {
-    static $card;
-
     public static function init()
     {
         add_action('wp_head', array(__CLASS__, 'render_head'), 10, 1);
